@@ -1,9 +1,11 @@
-import { useState } from "react";
-import { Heart, MapPin } from "lucide-react";
+import { useFavorites } from "../../context/FavoritesContext";
+import { Bath, BedDouble, Heart, MapPin, Ruler } from "lucide-react";
 import { Link } from "react-router-dom";
 
 function PropertyCard({ property }) {
-  const [isFavorite, setIsFavorite] = useState(false);
+  const { toggleFavorite, isFavorite } = useFavorites();
+
+  const favorite = isFavorite(property.id);
 
   return (
     <div className="group overflow-hidden rounded-2xl border border-gray-200 bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
@@ -24,9 +26,9 @@ function PropertyCard({ property }) {
 
         {/* Favorite */}
         <button
-          onClick={() => setIsFavorite(!isFavorite)}
+          onClick={() => toggleFavorite(property)}
           className={`absolute right-4 top-4 rounded-full p-2 shadow-sm transition ${
-            isFavorite
+            favorite
               ? "bg-[#D6A756] text-white"
               : "bg-white text-[#12372A] hover:bg-[#12372A] hover:text-white"
           }`}
@@ -38,7 +40,7 @@ function PropertyCard({ property }) {
         >
           <Heart
             size={18}
-            fill={isFavorite ? "currentColor" : "none"}
+            fill={favorite ? "currentColor" : "none"}
           />
         </button>
       </div>
@@ -58,9 +60,33 @@ function PropertyCard({ property }) {
 
         {/* Property Details */}
         <div className="mt-4 flex items-center gap-4 border-y border-gray-100 py-4 text-sm text-gray-600">
-          <span>{property.beds} Beds</span>
-          <span>{property.baths} Baths</span>
-          <span>{property.area}</span>
+          {property.type === "Land" ? (
+            <>
+              <span className="flex items-center gap-1.5">
+                <Ruler size={16} />
+                {property.area}
+              </span>
+
+              <span>Residential Land</span>
+            </>
+          ) : (
+            <>
+              <span className="flex items-center gap-1.5">
+                <BedDouble size={16} />
+                {property.beds}
+              </span>
+
+              <span className="flex items-center gap-1.5">
+                <Bath size={16} />
+                {property.baths}
+              </span>
+
+              <span className="flex items-center gap-1.5">
+                <Ruler size={16} />
+                {property.area}
+              </span>
+            </>
+          )}
         </div>
 
         {/* Price + Details */}

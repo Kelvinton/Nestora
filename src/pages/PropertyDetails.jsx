@@ -1,17 +1,208 @@
 import { useState } from "react";
+import { useFavorites } from "../context/FavoritesContext";
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, Heart, MapPin } from "lucide-react";
+import {
+  ArrowLeft,
+//   Bath,
+//   BedDouble,
+//   CheckCircle,
+//   ChevronLeft,
+//   ChevronRight,
+  Heart,
+  MapPin,
+//   Ruler,
+} from "lucide-react";
 import properties from "../data/properties";
+import PropertyCard from "../components/home/PropertyCard";
+import agents from "../data/agents";
+import ContactModal from "../components/modals/ContactModal";
+import ViewingModal from "../components/modals/ViewingModal";
 
 function PropertyDetails() {
 
+    // const [viewingData, setViewingData] = useState({
+    // date: "",
+    // time: "",
+    // phone: "",
+    // });
+
+    // const [viewingError, setViewingError] = useState("");
+    // const [viewingSubmitted, setViewingSubmitted] = useState(false);
+
+    // const [formData, setFormData] = useState({
+    // name: "",
+    // email: "",
+    // phone: "",
+    // message: "",
+    // });
+    // const handleViewingChange = (e) => {
+    // const { name, value } = e.target;
+
+    // setViewingData((current) => ({
+    //     ...current,
+    //     [name]: value,
+    // }));
+    // };
+
+    // const handleViewingSubmit = (e) => {
+    //     e.preventDefault();
+
+    //     if (!viewingData.date) {
+    //         setViewingError("Please select a date.");
+    //         return;
+    //     }
+
+    //     if (!viewingData.time) {
+    //         setViewingError("Please select a preferred time.");
+    //         return;
+    //     }
+
+    //     if (!viewingData.phone.trim()) {
+    //         setViewingError("Please enter your phone number.");
+    //         return;
+    //     }
+
+    //     setViewingError("");
+    //     setViewingSubmitted(true);
+    // };
+
+    // const handleChange = (e) => {
+    //     const { name, value } = e.target;
+
+    //     setFormData((current) => ({
+    //         ...current,
+    //         [name]: value,
+    //     }));
+
+        
+    // };
+
+    // const handleSubmit = (e) => {
+    //     e.preventDefault();
+
+    //     if (!formData.name.trim()) {
+    //         setFormError("Please enter your name.");
+    //         return;
+    //     }
+
+    //     if (!formData.email.trim()) {
+    //         setFormError("Please enter your email.");
+    //         return;
+    //     }
+
+    //     if (!formData.phone.trim()) {
+    //         setFormError("Please enter your phone number.");
+    //         return;
+    //     }
+
+    //     if (!formData.message.trim()) {
+    //         setFormError("Please enter a message.");
+    //         return;
+    //     }
+
+    //     setFormError("");
+    //     setIsSubmitted(true);
+    // };
+
+    // const [formError, setFormError] = useState("");
+    // const [isSubmitted, setIsSubmitted] = useState(false);
+
+    
+    const [isViewingOpen, setIsViewingOpen] = useState(false);
     const { id } = useParams();
 
     const property = properties.find(
         (property) => property.id === Number(id)
     );
 
+    const similarProperties = property
+    ? properties
+        .filter((item) => item.id !== property.id)
+        .map((item) => {
+            let score = 0;
+
+            // Same property type = strong match
+            if (item.type === property.type) {
+            score += 4;
+            }
+
+            // Same listing type = important
+            if (item.listingType === property.listingType) {
+            score += 3;
+            }
+
+            // Same location = strong match
+            if (item.location === property.location) {
+            score += 4;
+            }
+
+            // Similar bedroom count
+            if (
+            item.type !== "Land" &&
+            property.type !== "Land" &&
+            Math.abs(item.beds - property.beds) <= 1
+            ) {
+            score += 2;
+            }
+
+            // Similar price range
+            if (
+                property.priceValue > 0 &&
+                Math.abs(item.priceValue - property.priceValue) /
+                    property.priceValue <=
+                    0.25
+                ) {
+                score += 2;
+            }
+
+            return {
+            ...item,
+            score,
+            };
+        })
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 3)
+    : [];
+
+    const propertyStats = property
+    ? [
+        ...(property.type !== "Land"
+            ? [
+                {
+                label: "Bedrooms",
+                value: property.beds,
+                },
+                {
+                label: "Bathrooms",
+                value: property.baths,
+                },
+            ]
+            : []),
+
+        {
+            label: "Property type",
+            value: property.type,
+        },
+
+        {
+            label: "Area",
+            value: property.area,
+        },
+        ]
+    : [];
+
+    const agent = agents.find(
+        (agent) => agent.id === property?.agentId
+    );
+    
+   
+    
     const [selectedImage, setSelectedImage] = useState(0);
+    const [isContactOpen, setIsContactOpen] = useState(false);
+
+
+    const { toggleFavorite, isFavorite } = useFavorites();
+    const favorite = isFavorite(property?.id);
 
     if (!property) {
         return (
@@ -32,7 +223,7 @@ function PropertyDetails() {
         );
     }
 
-  return (
+    return (
         <main className="min-h-screen bg-[#F8F7F3]">
 
             {/* Back Button */}
@@ -64,11 +255,23 @@ function PropertyDetails() {
                     </span>
 
                     <button
-                    className="absolute right-5 top-5 rounded-full bg-white p-3 text-[#12372A] shadow-md transition hover:bg-[#D6A756] hover:text-white"
-                    aria-label="Save property"
-                    >
-                    <Heart size={20} />
-                    </button>
+                        onClick={() => toggleFavorite(property)}
+                        className={`absolute right-5 top-5 rounded-full p-3 shadow-md transition ${
+                        favorite
+                            ? "bg-[#D6A756] text-white"
+                            : "bg-white text-[#12372A] hover:bg-[#12372A] hover:text-white"
+                        }`}
+                        aria-label={
+                            favorite
+                            ? "Remove property from favorites"
+                            : "Save property"
+                        }
+                        >
+                        <Heart
+                        size={20}
+                        fill={favorite ? "currentColor" : "none"}
+                        />
+                </button>
 
                 </div>
 
@@ -115,40 +318,88 @@ function PropertyDetails() {
                         </h1>
 
                         {/* Property Features */}
-                        <div className="mt-6 flex flex-wrap gap-6 border-y border-gray-200 py-5 text-sm text-gray-600">
-                            <span>
-                                <strong className="text-[#12372A]">
-                                {property.beds}
-                                </strong>{" "}
-                                Bedrooms
-                            </span>
+                        <div
+                            className={`mt-8 grid overflow-hidden rounded-2xl border border-gray-200 bg-white ${
+                                propertyStats.length === 2
+                                ? "grid-cols-2"
+                                : "grid-cols-2 sm:grid-cols-4"
+                            }`}
+                            >
+                            {propertyStats.map((stat, index) => (
+                                <div
+                                key={stat.label}
+                                className={`p-5 ${
+                                    index < propertyStats.length - 1
+                                    ? "border-b border-gray-200 sm:border-b-0 sm:border-r"
+                                    : ""
+                                }`}
+                                >
+                                <p className="text-xs uppercase tracking-wide text-gray-400">
+                                    {stat.label}
+                                </p>
 
-                            <span>
-                                <strong className="text-[#12372A]">
-                                {property.baths}
-                                </strong>{" "}
-                                Bathrooms
-                            </span>
-
-                            <span>
-                                <strong className="text-[#12372A]">
-                                {property.area}
-                                </strong>
-                            </span>
+                                <p className="mt-2 text-lg font-bold text-[#12372A]">
+                                    {stat.value}
+                                </p>
+                                </div>
+                            ))}
                         </div>
 
-                        {/* Description */}
-                        <div className="mt-8">
+                        {/* Amenities  */}
+                        <div className="mt-10">
                             <h2 className="text-xl font-bold text-[#12372A]">
-                                About this property
+                                Amenities
                             </h2>
 
-                            <p className="mt-3 max-w-3xl leading-7 text-gray-600">
-                                Discover this beautiful property in {property.location}.
-                                Designed with comfort, style, and modern living in mind,
-                                this home offers an ideal space for individuals and families
-                                looking for a quality place to call home.
-                            </p>
+                            <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                                {property.amenities.map((amenity) => (
+                                <div
+                                    key={amenity}
+                                    className="rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-600"
+                                >
+                                    ✓ {amenity}
+                                </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Agents */}
+                        <div className="mt-10">
+                            <h2 className="text-xl font-bold text-[#12372A]">
+                                Listed by
+                            </h2>
+
+                            <div className="mt-5 flex flex-col gap-4 rounded-2xl border border-gray-200 bg-white p-5 sm:flex-row sm:items-center">
+                                
+                                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-[#12372A] text-lg font-bold text-white">
+                                {agent?.name
+                                    ?.split(" ")
+                                    .map((name) => name[0])
+                                    .join("")}
+                                </div>
+
+                                <div className="flex-1">
+                                <h3 className="font-semibold text-[#12372A]">
+                                    {agent?.name}
+                                </h3>
+
+                                <p className="mt-1 text-sm text-gray-500">
+                                    {agent?.role}
+                                </p>
+
+                                <p className="mt-1 text-sm text-gray-500">
+                                    {agent?.location}
+                                </p>
+                                </div>
+
+                                <button
+                                onClick={() => setIsContactOpen(true)}
+                                className="rounded-xl border border-[#12372A] px-5 py-2.5 text-sm font-semibold text-[#12372A] transition hover:bg-[#12372A] hover:text-white"
+                                >
+                                Contact
+                                </button>
+
+                            </div>
                         </div>
 
                     </div>
@@ -165,12 +416,18 @@ function PropertyDetails() {
                                 {property.price}
                             </p>
 
-                            <button className="mt-6 w-full rounded-xl bg-[#12372A] px-6 py-3 font-semibold text-white transition hover:bg-[#315C48]">
-                                Contact Agent
+                            <button
+                            onClick={() => setIsContactOpen(true)}
+                            className="mt-6 w-full rounded-xl bg-[#12372A] px-6 py-3 font-semibold text-white transition hover:bg-[#315C48]"
+                            >
+                            Contact Agent
                             </button>
 
-                            <button className="mt-3 w-full rounded-xl border border-[#12372A] px-6 py-3 font-semibold text-[#12372A] transition hover:bg-[#12372A] hover:text-white">
-                                Schedule a Viewing
+                            <button
+                            onClick={() => setIsViewingOpen(true)}
+                            className="mt-3 w-full rounded-xl border border-[#12372A] px-6 py-3 font-semibold text-[#12372A] transition hover:bg-[#12372A] hover:text-white"
+                            >
+                            Schedule a Viewing
                             </button>
 
                         </div>
@@ -179,6 +436,47 @@ function PropertyDetails() {
                 </div>
 
             </section>
+
+            {similarProperties.length > 0 && (
+                <section className="mt-16 border-t border-gray-200 pt-12 mx-3">
+                    <div>
+                    <p className="text-sm font-semibold uppercase tracking-wider text-[#D6A756]">
+                        More to explore
+                    </p>
+
+                    <h2 className="mt-2 text-2xl font-bold text-[#12372A] md:text-3xl">
+                        You may also like
+                    </h2>
+
+                    <p className="mt-3 max-w-2xl text-sm leading-6 text-gray-500">
+                        Explore other properties that may match what you're
+                        looking for.
+                    </p>
+                    </div>
+
+                    <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                    {similarProperties.map((property) => (
+                        <PropertyCard
+                        key={property.id}
+                        property={property}
+                        />
+                    ))}
+                    </div>
+                </section>
+            )}
+
+            <ContactModal
+            isOpen={isContactOpen}
+            onClose={() => setIsContactOpen(false)}
+            agent={agent}
+            property={property}
+            />
+
+            <ViewingModal
+            isOpen={isViewingOpen}
+            onClose={() => setIsViewingOpen(false)}
+            property={property}
+            />
 
         </main>
     );

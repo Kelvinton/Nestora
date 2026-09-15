@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import PropertyCard from "./PropertyCard";
 import properties from "../../data/properties";
 
@@ -24,9 +25,11 @@ function FeaturedProperties() {
             </div>
 
 
-            <button className="hidden shrink-0 text-sm font-semibold text-[#12372A] transition-colors hover:text-[#D6A756] md:block">
+            <Link 
+            to="/properties"
+            className="hidden shrink-0 text-sm font-semibold text-[#12372A] transition-colors hover:text-[#D6A756] md:block">
                 View all properties →
-            </button>
+            </Link>
 
             </div>
 
@@ -40,9 +43,12 @@ function FeaturedProperties() {
             </div>
 
             <div className="mt-8 text-center md:hidden">
-                <button className="text-sm font-semibold text-[#12372A]">
+                <Link
+                    to="/properties"
+                    className="text-sm font-semibold text-[#12372A] transition-colors hover:text-[#D6A756]"
+                >
                     View all properties →
-                </button>
+                </Link>
             </div>
 
         </div>
