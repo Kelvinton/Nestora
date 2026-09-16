@@ -253,9 +253,10 @@ function Properties() {
 
               <select
                 value={propertyType}
-                onChange={(e) =>
-                  setPropertyType(e.target.value)
-                }
+                onChange={(e) => {
+                  setListingType(e.target.value);
+                  setPriceRange("All");
+                }}
                 className="mt-1 w-full bg-transparent text-sm font-semibold text-[#12372A] outline-none"
               >
                 <option value="All">

@@ -1,85 +1,145 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, MapPin } from "lucide-react";
+import {
+  ArrowRight,
+  Building2,
+  Mail,
+  MapPin,
+  Phone,
+} from "lucide-react";
 import agents from "../data/agents";
+import properties from "../data/properties";
 
 function Agents() {
   return (
     <main className="min-h-screen bg-[#F8F7F3]">
-      {/* Hero */}
+
+      {/* Header */}
       <section className="bg-[#12372A] px-6 py-16 text-white">
         <div className="mx-auto max-w-7xl">
+
           <p className="text-sm font-semibold uppercase tracking-wider text-[#D6A756]">
-            Our experts
+            Our team
           </p>
 
           <h1 className="mt-2 text-3xl font-bold md:text-5xl">
             Meet our property experts
           </h1>
 
-          <p className="mt-4 max-w-2xl leading-7 text-white/70">
-            Connect with trusted real estate professionals who can
-            help you find the right property.
+          <p className="mt-4 max-w-2xl text-white/70">
+            Connect with experienced property professionals who
+            can help you find the right home or investment.
           </p>
+
         </div>
       </section>
 
       {/* Agents */}
-      <section className="mx-auto max-w-7xl px-6 py-16">
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {agents.map((agent) => (
-            <div
-              key={agent.id}
-              className="rounded-2xl border border-gray-200 bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
-            >
-              {/* Avatar */}
-              <div className="flex items-center gap-4">
-                <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-[#12372A] text-xl font-bold text-white">
-                  {agent.name
-                    .split(" ")
-                    .map((name) => name[0])
-                    .join("")}
-                </div>
+      <section className="mx-auto max-w-7xl px-6 py-12">
 
-                <div>
-                  <h2 className="text-lg font-bold text-[#12372A]">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+
+          {agents.map((agent) => {
+
+            // Get the actual properties belonging to this agent
+            const agentProperties = properties.filter(
+              (property) => property.agentId === agent.id
+            );
+
+            const initials = agent.name
+              .split(" ")
+              .map((name) => name[0])
+              .join("")
+              .slice(0, 2);
+
+            return (
+              <article
+                key={agent.id}
+                className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-md"
+              >
+
+                {/* Agent information */}
+                <div className="p-6">
+
+                  <div className="flex items-start justify-between">
+
+                    {/* Avatar */}
+                    <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#12372A] text-lg font-bold text-white">
+                      {initials}
+                    </div>
+
+                    {/* Real property count */}
+                    <div className="flex items-center gap-1.5 rounded-full bg-[#F8F7F3] px-3 py-1.5 text-xs font-semibold text-[#12372A]">
+                      <Building2 size={14} />
+
+                      {agentProperties.length}{" "}
+                      {agentProperties.length === 1
+                        ? "listing"
+                        : "listings"}
+                    </div>
+
+                  </div>
+
+                  {/* Name */}
+                  <h2 className="mt-5 text-xl font-bold text-[#12372A]">
                     {agent.name}
                   </h2>
 
-                  <p className="mt-1 text-sm text-gray-500">
+                  <p className="mt-1 text-sm font-medium text-[#D6A756]">
                     {agent.role}
                   </p>
+
+                  {/* Location */}
+                  <div className="mt-5 flex items-center gap-2 text-sm text-gray-500">
+                    <MapPin size={16} />
+                    <span>{agent.location}</span>
+                  </div>
+
+                  {/* Contact */}
+                  <div className="mt-4 space-y-2">
+
+                    <a
+                      href={`tel:${agent.phone}`}
+                      className="flex items-center gap-2 text-sm text-gray-500 transition hover:text-[#12372A]"
+                    >
+                      <Phone size={15} />
+                      <span>{agent.phone}</span>
+                    </a>
+
+                    <a
+                      href={`mailto:${agent.email}`}
+                      className="flex items-center gap-2 text-sm text-gray-500 transition hover:text-[#12372A]"
+                    >
+                      <Mail size={15} />
+                      <span>{agent.email}</span>
+                    </a>
+
+                  </div>
+
                 </div>
-              </div>
 
-              {/* Location */}
-              <div className="mt-6 flex items-center gap-2 text-sm text-gray-500">
-                <MapPin size={16} />
-                {agent.location}
-              </div>
+                {/* View profile */}
+                <div className="border-t border-gray-100 px-6 py-4">
 
-              {/* Properties */}
-              <div className="mt-5 rounded-xl bg-[#F8F7F3] px-4 py-3">
-                <p className="text-xs uppercase tracking-wide text-gray-400">
-                  Listed properties
-                </p>
+                  <Link
+                    to={`/agents/${agent.id}`}
+                    className="flex items-center justify-between text-sm font-semibold text-[#12372A] transition hover:text-[#D6A756]"
+                  >
+                    <span>View profile</span>
 
-                <p className="mt-1 text-lg font-bold text-[#12372A]">
-                  {agent.properties}
-                </p>
-              </div>
+                    <ArrowRight size={18} />
 
-              {/* View profile */}
-              <Link
-                to={`/agents/${agent.id}`}
-                className="mt-6 flex items-center justify-between rounded-xl border border-[#12372A] px-4 py-3 text-sm font-semibold text-[#12372A] transition hover:bg-[#12372A] hover:text-white"
-              >
-                View profile
-                <ArrowRight size={17} />
-              </Link>
-            </div>
-          ))}
+                  </Link>
+
+                </div>
+
+              </article>
+            );
+          })}
+
         </div>
+
       </section>
+
     </main>
   );
 }
