@@ -1,6 +1,12 @@
-import { useFavorites } from "../../context/FavoritesContext";
-import { Bath, BedDouble, Heart, MapPin, Ruler } from "lucide-react";
 import { Link } from "react-router-dom";
+import {
+  Bath,
+  BedDouble,
+  Heart,
+  MapPin,
+  Ruler,
+} from "lucide-react";
+import { useFavorites } from "../../context/FavoritesContext";
 
 function PropertyCard({ property }) {
   const { toggleFavorite, isFavorite } = useFavorites();
@@ -8,38 +14,50 @@ function PropertyCard({ property }) {
   const favorite = isFavorite(property.id);
 
   return (
-    <div className="group overflow-hidden rounded-2xl border border-gray-200 bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
-
+    <article className="group overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl">
       {/* Property Image */}
       <div className="relative h-64 overflow-hidden">
+        <Link to={`/properties/${property.id}`}>
+          <img
+            src={property.images[0]}
+            alt={property.title}
+            className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+          />
 
-        <img
-         src={property.images[0]}
-          alt={property.title}
-          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-        />
+          {/* Hover Overlay */}
+          <div className="absolute inset-0 bg-black/0 transition duration-300 group-hover:bg-black/10" />
+        </Link>
 
-        {/* Status */}
-        <span className="absolute left-4 top-4 rounded-full bg-white px-3 py-1 text-xs font-semibold text-[#12372A]">
-          {property.status}
-        </span>
+        {/* Listing Type */}
+        <div className="absolute left-4 top-4">
+          <span
+            className={`rounded-full px-3 py-1.5 text-xs font-semibold shadow-sm ${
+              property.listingType === "Rent"
+                ? "bg-[#12372A] text-white"
+                : "bg-[#D6A756] text-white"
+            }`}
+          >
+            {property.status}
+          </span>
+        </div>
 
-        {/* Favorite */}
+        {/* Favorite Button */}
         <button
+          type="button"
           onClick={() => toggleFavorite(property)}
-          className={`absolute right-4 top-4 rounded-full p-2 shadow-sm transition ${
-            favorite
-              ? "bg-[#D6A756] text-white"
-              : "bg-white text-[#12372A] hover:bg-[#12372A] hover:text-white"
-          }`}
           aria-label={
-            isFavorite
-              ? "Remove property from favorites"
-              : "Save property"
+            favorite
+              ? "Remove from favorites"
+              : "Add to favorites"
           }
+          className={`absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full bg-white/95 shadow-md backdrop-blur-sm transition duration-300 hover:scale-110 ${
+            favorite
+              ? "text-red-500"
+              : "text-gray-600 hover:text-red-500"
+          }`}
         >
           <Heart
-            size={18}
+            size={19}
             fill={favorite ? "currentColor" : "none"}
           />
         </button>
@@ -47,16 +65,17 @@ function PropertyCard({ property }) {
 
       {/* Property Information */}
       <div className="p-5">
-
-        <h3 className="text-lg font-semibold text-[#12372A]">
-          {property.title}
-        </h3>
+        <Link to={`/properties/${property.id}`}>
+          <h3 className="line-clamp-1 text-lg font-bold text-[#12372A] transition hover:text-[#D6A756]">
+            {property.title}
+          </h3>
+        </Link>
 
         {/* Location */}
-        <p className="mt-2 flex items-center gap-1 text-sm text-gray-500">
-          <MapPin size={15} />
-          {property.location}
-        </p>
+        <div className="mt-2 flex items-center gap-1.5 text-sm text-gray-500">
+          <MapPin size={16} className="shrink-0" />
+          <span>{property.location}</span>
+        </div>
 
         {/* Property Details */}
         <div className="mt-4 flex items-center gap-4 border-y border-gray-100 py-4 text-sm text-gray-600">
@@ -90,29 +109,28 @@ function PropertyCard({ property }) {
         </div>
 
         {/* Price + Details */}
-        <div className="mt-5 flex items-end justify-between">
-
+        <div className="mt-5 flex items-end justify-between gap-4">
           <div>
-            <p className="text-xs font-medium uppercase tracking-wide text-gray-400">
-              Price
-            </p>
-
-            <p className="mt-1 text-xl font-bold text-[#12372A]">
+            <p className="text-xl font-bold text-[#12372A]">
               {property.price}
             </p>
+
+            {property.pricePeriod === "year" && (
+              <p className="mt-0.5 text-xs text-gray-400">
+                per year
+              </p>
+            )}
           </div>
 
           <Link
             to={`/properties/${property.id}`}
-            className="text-sm font-semibold text-[#12372A] transition-colors hover:text-[#D6A756]"
+            className="text-sm font-semibold text-[#12372A] transition hover:text-[#D6A756]"
           >
             View details →
           </Link>
-
         </div>
-
       </div>
-    </div>
+    </article>
   );
 }
 

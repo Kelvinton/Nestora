@@ -5,7 +5,7 @@ import FeaturedProperties from "../components/home/FeaturedProperties";
 import Locations from "../components/home/Locations";
 import Testimonials from "../components/home/Testimonials";
 import CTA from "../components/home/CTA";
-import Footer from "../components/home/Footer";
+// import Footer from "../components/home/Footer";
 
 function Home() {
   return (
@@ -17,7 +17,7 @@ function Home() {
       <Locations />
       <Testimonials />
       <CTA />
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }

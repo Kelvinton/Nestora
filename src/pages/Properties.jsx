@@ -38,7 +38,7 @@ function Properties() {
       ? "Rent"
       : "All"
   );
-
+  const [sortBy, setSortBy] = useState("newest");
   // Pagination
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -53,6 +53,7 @@ function Properties() {
     priceRange,
     bedrooms,
     listingType,
+    sortBy,
   ]);
 
   // Filter properties
@@ -130,19 +131,34 @@ function Properties() {
       matchesListingType 
     );
   });
+   
+  const sortedProperties = [...filteredProperties].sort((a, b) => {
+    if (sortBy === "price-low") {
+      return a.priceValue - b.priceValue;
+    }
+
+    if (sortBy === "price-high") {
+      return b.priceValue - a.priceValue;
+    }
+
+    if (sortBy === "bedrooms") {
+      return b.beds - a.beds;
+    }
+
+    // Newest
+    return b.id - a.id;
+  });
 
   // Pagination
   const totalPages = Math.ceil(
-    filteredProperties.length / propertiesPerPage
+    sortedProperties.length / propertiesPerPage
   );
 
-  const startIndex =
-    (currentPage - 1) * propertiesPerPage;
+  const startIndex = (currentPage - 1) * propertiesPerPage;
 
-  const endIndex =
-    startIndex + propertiesPerPage;
+  const endIndex = startIndex + propertiesPerPage;
 
-  const visibleProperties = filteredProperties.slice(
+  const visibleProperties = sortedProperties.slice(
     startIndex,
     endIndex
   );
@@ -426,9 +442,48 @@ function Properties() {
 
         <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
 
-          <h2 className="text-2xl font-bold text-[#12372A]">
-            Properties
-          </h2>
+          <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <h2 className="text-2xl font-bold text-[#12372A]">
+                Available Properties
+              </h2>
+
+              <p className="mt-1 text-sm text-gray-500">
+                {filteredProperties.length}{" "}
+                {filteredProperties.length === 1
+                  ? "property"
+                  : "properties"}{" "}
+                found
+              </p>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <label
+                htmlFor="sort"
+                className="text-sm font-medium text-gray-500"
+              >
+                Sort by
+              </label>
+
+              <select
+                id="sort"
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                className="rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-[#12372A] outline-none transition focus:border-[#12372A]"
+              >
+                <option value="newest">Newest</option>
+                <option value="price-low">
+                  Price: Low to High
+                </option>
+                <option value="price-high">
+                  Price: High to Low
+                </option>
+                <option value="bedrooms">
+                  Most Bedrooms
+                </option>
+              </select>
+            </div>
+          </div>
 
           {filteredProperties.length > 0 && (
             <p className="text-sm text-gray-500">

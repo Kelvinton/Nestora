@@ -1,6 +1,9 @@
 import { ArrowRight, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
 import lagos from "../../assets/images/lagosImage.jpg";
+import abuja from "../../assets/images/abujaImage.jpg";
+import portHarcourt from "../../assets/images/portHarcourtImage.jpg";
+import ibadan from "../../assets/images/ibadanImage.jpg";
 
 const locations = [
   {
@@ -11,20 +14,17 @@ const locations = [
   {
     name: "Abuja",
     properties: "280+ Properties",
-    image:
-      "https://images.unsplash.com/photo-1587474260584-136574528ed5?auto=format&fit=crop&w=900&q=80",
+    image:[abuja],
   },
   {
     name: "Port Harcourt",
     properties: "180+ Properties",
-    image:
-      "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=900&q=80",
+    image:[portHarcourt],
   },
   {
     name: "Ibadan",
     properties: "150+ Properties",
-    image:
-      "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=900&q=80",
+    image:[ibadan],
   },
 ];
 

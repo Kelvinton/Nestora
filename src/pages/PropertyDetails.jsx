@@ -3,14 +3,11 @@ import { useFavorites } from "../context/FavoritesContext";
 import { useParams, Link } from "react-router-dom";
 import {
   ArrowLeft,
-//   Bath,
-//   BedDouble,
-//   CheckCircle,
+  CheckCircle,
 //   ChevronLeft,
 //   ChevronRight,
   Heart,
   MapPin,
-//   Ruler,
 } from "lucide-react";
 import properties from "../data/properties";
 import PropertyCard from "../components/home/PropertyCard";
@@ -237,208 +234,312 @@ function PropertyDetails() {
                 </Link>
             </div>
 
-            {/* Property Image */}
             {/* Property Gallery */}
-            <section className="mx-auto mt-6 max-w-7xl px-6">
-
+            <div className="grid gap-3 md:grid-cols-4 mx-6">
                 {/* Main Image */}
-                <div className="relative h-87.5 overflow-hidden rounded-2xl md:h-125">
-
+                <div className="relative h-105 overflow-hidden rounded-2xl md:col-span-3 md:h-130">
                     <img
                     src={property.images[selectedImage]}
-                    alt={property.title}
+                    alt={`${property.title} - image ${selectedImage + 1}`}
                     className="h-full w-full object-cover"
                     />
 
-                    <span className="absolute left-5 top-5 rounded-full bg-white px-4 py-2 text-sm font-semibold text-[#12372A]">
-                    {property.status}
-                    </span>
-
+                    {/* Previous Button */}
+                    {property.images.length > 1 && (
                     <button
-                        onClick={() => toggleFavorite(property)}
-                        className={`absolute right-5 top-5 rounded-full p-3 shadow-md transition ${
+                    type="button"
+                    onClick={() => toggleFavorite(property)}
+                    className={`flex h-11 w-11 items-center justify-center rounded-full border transition ${
                         favorite
-                            ? "bg-[#D6A756] text-white"
-                            : "bg-white text-[#12372A] hover:bg-[#12372A] hover:text-white"
+                        ? "border-red-200 bg-red-50 text-red-500"
+                        : "border-gray-200 bg-white text-gray-500 hover:border-[#D6A756] hover:text-[#D6A756]"
+                    }`}
+                    aria-label={
+                        favorite
+                        ? "Remove from favorites"
+                        : "Save property"
+                    }
+                    >
+                    <Heart
+                        size={20}
+                        fill={favorite ? "currentColor" : "none"}
+                    />
+                    </button>
+                    )}
+
+                    {/* Next Button */}
+                    {property.images.length > 1 && (
+                    <button
+                        type="button"
+                        onClick={() => toggleFavorite(property)}
+                        className={`flex h-11 w-11 items-center justify-center rounded-full border transition ${
+                            favorite
+                            ? "border-red-200 bg-red-50 text-red-500"
+                            : "border-gray-200 bg-white text-gray-500 hover:border-[#D6A756] hover:text-[#D6A756]"
                         }`}
                         aria-label={
                             favorite
-                            ? "Remove property from favorites"
+                            ? "Remove from favorites"
                             : "Save property"
                         }
                         >
                         <Heart
-                        size={20}
-                        fill={favorite ? "currentColor" : "none"}
+                            size={20}
+                            fill={favorite ? "currentColor" : "none"}
                         />
-                </button>
+                    </button>
+                    )}
 
+                    {/* Image Counter */}
+                    {property.images.length > 1 && (
+                    <div className="absolute bottom-4 right-4 rounded-full bg-black/60 px-3 py-1.5 text-xs font-medium text-white">
+                        {selectedImage + 1} / {property.images.length}
+                    </div>
+                    )}
                 </div>
 
                 {/* Thumbnails */}
-                <div className="mt-4 flex gap-3">
-
+                <div className="grid grid-cols-3 gap-3 md:grid-cols-1">
                     {property.images.map((image, index) => (
                     <button
-                        key={index}
+                        key={image + index}
+                        type="button"
                         onClick={() => setSelectedImage(index)}
-                        className={`h-20 w-24 overflow-hidden rounded-lg border-2 ${
+                        className={`relative overflow-hidden rounded-xl ${
                         selectedImage === index
-                            ? "border-[#D6A756]"
-                            : "border-transparent"
+                            ? "ring-2 ring-[#D6A756] ring-offset-2"
+                            : ""
                         }`}
                     >
                         <img
                         src={image}
-                        alt={`${property.title} ${index + 1}`}
-                        className="h-full w-full object-cover"
+                        alt={`${property.title} thumbnail ${index + 1}`}
+                        className="h-28 w-full object-cover transition duration-300 hover:scale-105 md:h-[calc((496/3))]"
                         />
+
+                        {selectedImage !== index && (
+                        <div className="absolute inset-0 bg-black/10 transition hover:bg-black/0" />
+                        )}
                     </button>
                     ))}
-
                 </div>
+            </div>  
 
-            </section>  
-
-            {/* Property Information */}
-            <section className="mx-auto max-w-7xl px-6 py-10">
-
-                <div className="grid gap-10 lg:grid-cols-[1fr_350px]">
-
-                    {/* Left */}
+            <div className="mt-8 mx-6">
+                <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
                     <div>
+                    <div className="flex flex-wrap items-center gap-3">
+                        <span className="rounded-full bg-[#D6A756] px-3 py-1 text-xs font-semibold text-white">
+                        {property.status}
+                        </span>
 
-                        <p className="flex items-center gap-2 text-sm text-gray-500">
-                        <MapPin size={16} />
-                        {property.location}
+                        <span className="text-sm text-gray-500">
+                        {property.type}
+                        </span>
+                    </div>
+
+                    <h1 className="mt-4 text-3xl font-bold tracking-tight text-[#12372A] md:text-4xl">
+                        {property.title}
+                    </h1>
+
+                    <div className="mt-3 flex items-center gap-2 text-gray-500">
+                        <MapPin size={18} />
+                        <span>{property.location}</span>
+                    </div>
+                    </div>
+
+                    <div className="flex items-center gap-3">
+                    <div>
+                        <p className="text-right text-2xl font-bold text-[#12372A]">
+                        {property.price}
                         </p>
 
-                        <h1 className="mt-3 text-3xl font-bold text-[#12372A] md:text-4xl">
-                        {property.title}
-                        </h1>
-
-                        {/* Property Features */}
-                        <div
-                            className={`mt-8 grid overflow-hidden rounded-2xl border border-gray-200 bg-white ${
-                                propertyStats.length === 2
-                                ? "grid-cols-2"
-                                : "grid-cols-2 sm:grid-cols-4"
-                            }`}
-                            >
-                            {propertyStats.map((stat, index) => (
-                                <div
-                                key={stat.label}
-                                className={`p-5 ${
-                                    index < propertyStats.length - 1
-                                    ? "border-b border-gray-200 sm:border-b-0 sm:border-r"
-                                    : ""
-                                }`}
-                                >
-                                <p className="text-xs uppercase tracking-wide text-gray-400">
-                                    {stat.label}
-                                </p>
-
-                                <p className="mt-2 text-lg font-bold text-[#12372A]">
-                                    {stat.value}
-                                </p>
-                                </div>
-                            ))}
-                        </div>
-
-                        {/* Amenities  */}
-                        <div className="mt-10">
-                            <h2 className="text-xl font-bold text-[#12372A]">
-                                Amenities
-                            </h2>
-
-                            <div className="mt-5 grid gap-3 sm:grid-cols-2">
-                                {property.amenities.map((amenity) => (
-                                <div
-                                    key={amenity}
-                                    className="rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-600"
-                                >
-                                    ✓ {amenity}
-                                </div>
-                                ))}
-                            </div>
-                        </div>
-
-                        {/* Agents */}
-                        <div className="mt-10">
-                            <h2 className="text-xl font-bold text-[#12372A]">
-                                Listed by
-                            </h2>
-
-                            <div className="mt-5 flex flex-col gap-4 rounded-2xl border border-gray-200 bg-white p-5 sm:flex-row sm:items-center">
-                                
-                                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-[#12372A] text-lg font-bold text-white">
-                                {agent?.name
-                                    ?.split(" ")
-                                    .map((name) => name[0])
-                                    .join("")}
-                                </div>
-
-                                <div className="flex-1">
-                                <h3 className="font-semibold text-[#12372A]">
-                                    {agent?.name}
-                                </h3>
-
-                                <p className="mt-1 text-sm text-gray-500">
-                                    {agent?.role}
-                                </p>
-
-                                <p className="mt-1 text-sm text-gray-500">
-                                    {agent?.location}
-                                </p>
-                                </div>
-
-                                <button
-                                onClick={() => setIsContactOpen(true)}
-                                className="rounded-xl border border-[#12372A] px-5 py-2.5 text-sm font-semibold text-[#12372A] transition hover:bg-[#12372A] hover:text-white"
-                                >
-                                Contact
-                                </button>
-
-                            </div>
-                        </div>
-
+                        {property.pricePeriod === "year" && (
+                        <p className="text-right text-sm text-gray-400">
+                            per year
+                        </p>
+                        )}
                     </div>
 
-                    {/* Right - Price Card */}
-                    <div>
-                        <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
-
-                            <p className="text-sm text-gray-500">
-                                Listed price
-                            </p>
-
-                            <p className="mt-1 text-3xl font-bold text-[#12372A]">
-                                {property.price}
-                            </p>
-
-                            <button
-                            onClick={() => setIsContactOpen(true)}
-                            className="mt-6 w-full rounded-xl bg-[#12372A] px-6 py-3 font-semibold text-white transition hover:bg-[#315C48]"
-                            >
-                            Contact Agent
-                            </button>
-
-                            <button
-                            onClick={() => setIsViewingOpen(true)}
-                            className="mt-3 w-full rounded-xl border border-[#12372A] px-6 py-3 font-semibold text-[#12372A] transition hover:bg-[#12372A] hover:text-white"
-                            >
-                            Schedule a Viewing
-                            </button>
-
-                        </div>
+                    <button
+                        type="button"
+                        onClick={() => toggleFavorite(property)}
+                        className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full border transition ${
+                        favorite
+                            ? "border-red-200 bg-red-50 text-red-500"
+                            : "border-gray-200 bg-white text-gray-500 hover:border-[#D6A756] hover:text-[#D6A756]"
+                        }`}
+                    >
+                        <Heart
+                        size={20}
+                        fill={favorite ? "currentColor" : "none"}
+                        />
+                    </button>
                     </div>
-
                 </div>
+            </div>
 
+            {/* Property Stats */}
+            <div className="mt-8 grid grid-cols-2 overflow-hidden rounded-2xl border border-gray-200 bg-white sm:grid-cols-4 mx-6">
+            {propertyStats.map((stat, index) => (
+                <div
+                key={stat.label}
+                className={`p-5 ${
+                    index !== propertyStats.length - 1
+                    ? "border-b border-gray-200 sm:border-b-0 sm:border-r"
+                    : ""
+                }`}
+                >
+                <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">
+                    {stat.label}
+                </p>
+
+                <p className="mt-2 text-lg font-bold text-[#12372A]">
+                    {stat.value}
+                </p>
+                </div>
+            ))}
+            </div>
+
+            <section className="mt-10 mx-6">
+                <h2 className="text-2xl font-bold text-[#12372A]">
+                    About this property
+                </h2>
+
+                <p className="mt-4 max-w-3xl leading-7 text-gray-600">
+                    {property.description}
+                </p>
+            </section>
+            
+
+            <section className="mt-10 mx-6">
+                <h2 className="text-2xl font-bold text-[#12372A]">
+                    Property features
+                </h2>
+
+                <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                    {property.amenities.map((amenity) => (
+                    <div
+                        key={amenity}
+                        className="flex items-center gap-3 rounded-xl border border-gray-200 bg-white p-4"
+                    >
+                        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#12372A]/10">
+                        <CheckCircle
+                            size={18}
+                            className="text-[#12372A]"
+                        />
+                        </div>
+
+                        <span className="text-sm font-medium text-gray-700">
+                        {amenity}
+                        </span>
+                    </div>
+                    ))}
+                </div>
             </section>
 
+            <div className="mt-10 rounded-2xl bg-[#12372A] p-6 text-white md:p-8 mx-6">
+                <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+                    <div>
+                    <p className="text-sm font-semibold uppercase tracking-wider text-[#D6A756]">
+                        Interested in this property?
+                    </p>
+
+                    <h2 className="mt-2 text-2xl font-bold">
+                        Take the next step
+                    </h2>
+
+                    <p className="mt-2 max-w-xl text-sm leading-6 text-white/70">
+                        Speak with our property team or schedule a viewing
+                        to see this property in person.
+                    </p>
+                    </div>
+
+                    <div className="flex flex-col gap-3 sm:flex-row">
+                    <button
+                        type="button"
+                        onClick={() => setIsContactOpen(true)}
+                        className="rounded-xl bg-white px-5 py-3 text-sm font-semibold text-[#12372A] transition hover:bg-gray-100"
+                    >
+                        Contact Agent
+                    </button>
+
+                    <button
+                        type="button"
+                        onClick={() => setIsViewingOpen(true)}
+                        className="rounded-xl bg-[#D6A756] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#c39745]"
+                    >
+                        Schedule Viewing
+                    </button>
+                    </div>
+                </div>
+            </div>
+
+            {/* Agent Information */}
+            {agent && (
+                <section className="mt-10 mx-6">
+                    {/* agent card */}
+                    <h2 className="text-2xl font-bold text-[#12372A]">
+                        Your property agent
+                    </h2>
+
+                    <div className="mt-5 rounded-2xl border border-gray-200 bg-white p-6">
+                        <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+                        <div className="flex items-center gap-4">
+                            {/* Agent Avatar */}
+                            <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-[#12372A] text-lg font-bold text-white">
+                            {agent?.name
+                                ?.split(" ")
+                                .map((name) => name[0])
+                                .join("")
+                                .slice(0, 2)}
+                            </div>
+
+                            <div>
+                            <h3 className="text-lg font-bold text-[#12372A]">
+                                {agent?.name}
+                            </h3>
+
+                            <p className="mt-1 text-sm font-medium text-[#D6A756]">
+                                {agent?.role}
+                            </p>
+
+                            <div className="mt-2 flex items-center gap-1.5 text-sm text-gray-500">
+                                <MapPin size={15} />
+                                <span>{agent?.location}</span>
+                            </div>
+                            </div>
+                        </div>
+
+                        <Link
+                            to={`/agents/${agent?.id}`}
+                            className="inline-flex items-center justify-center rounded-xl border border-[#12372A] px-5 py-3 text-sm font-semibold text-[#12372A] transition hover:bg-[#12372A] hover:text-white"
+                        >
+                            View agent profile
+                        </Link>
+                        </div>
+
+                        <div className="mt-5 flex flex-col gap-3 border-t border-gray-100 pt-5 sm:flex-row">
+                            <a
+                                href={`tel:${agent?.phone}`}
+                                className="flex-1 rounded-xl bg-[#12372A] px-5 py-3 text-center text-sm font-semibold text-white transition hover:bg-[#315C48]"
+                            >
+                                Call agent
+                            </a>
+
+                            <a
+                                href={`mailto:${agent?.email}`}
+                                className="flex-1 rounded-xl border border-gray-200 px-5 py-3 text-center text-sm font-semibold text-[#12372A] transition hover:border-[#D6A756] hover:text-[#D6A756]"
+                            >
+                                Send email
+                            </a>
+                        </div>
+                    </div>
+                </section>
+            )}
+
             {similarProperties.length > 0 && (
-                <section className="mt-16 border-t border-gray-200 pt-12 mx-3">
+                <section className="my-16 border-t border-gray-200 pt-12 mx-6">
                     <div>
                     <p className="text-sm font-semibold uppercase tracking-wider text-[#D6A756]">
                         More to explore
