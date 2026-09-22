@@ -74,7 +74,7 @@ function Navbar() {
               key={link.label}
               to={link.to}
               className={() =>
-              `text-2xl font-medium transition-colors ${
+              `text-xl font-medium transition-colors ${
                 link.active
                   ? "text-[#D6A756]"
                   : "text-[#12372A] hover:text-[#D6A756]"
