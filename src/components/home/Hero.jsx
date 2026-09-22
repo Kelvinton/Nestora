@@ -49,7 +49,7 @@ function Hero() {
 
       {/* Content */}
       <div className="relative mx-auto flex min-h-155 max-w-7xl items-center px-5 py-7 sm:px-6 lg:px-8">
-        <div className="w-full max-w-3xl">
+        <div className="w-full max-w-3xl ">
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#D6A756]">
             Your next home starts here
           </p>
