@@ -8,7 +8,7 @@ const properties = [
   {
     id: 1,
     title: "Modern 4 Bedroom Duplex",
-    location: "Lekki, Lagos",
+    location: "Gwagwalada, Abuja",
     price: "₦85,000,000",
     priceValue: 85000000,
     pricePeriod: "total",
@@ -115,7 +115,7 @@ const properties = [
   {
     id: 5,
     title: "Premium 5 Bedroom Duplex",
-    location: "Ajah, Lagos",
+    location: "ibadan, Oyo",
     price: "₦95,000,000",
     priceValue: 95000000,
     pricePeriod: "total",

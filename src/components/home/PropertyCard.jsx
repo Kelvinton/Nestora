@@ -16,7 +16,7 @@ function PropertyCard({ property }) {
   return (
     <article className="group overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl">
       {/* Property Image */}
-      <div className="relative h-64 overflow-hidden">
+      <div className="relative h-56 sm:h-64 overflow-hidden">
         <Link to={`/properties/${property.id}`}>
           <img
             src={property.images[0]}

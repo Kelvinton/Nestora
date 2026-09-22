@@ -28,7 +28,7 @@ const categories = [
 
 function Categories() {
   return (
-    <section className="bg-[#F8F7F3] py-20">
+    <section className="bg-[#F8F7F3] py-20 px-4 md:px-5">
       <div className="mx-auto max-w-7xl px-6">
 
         {/* Section heading */}

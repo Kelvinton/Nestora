@@ -5,6 +5,7 @@ import FeaturedProperties from "../components/home/FeaturedProperties";
 import Locations from "../components/home/Locations";
 import Testimonials from "../components/home/Testimonials";
 import CTA from "../components/home/CTA";
+import WhyChooseNestora from "../components/home/WhyNestora";
 // import Footer from "../components/home/Footer";
 
 function Home() {
@@ -14,7 +15,9 @@ function Home() {
       <Hero />
       <Categories />
       <FeaturedProperties />
+      <WhyChooseNestora />
       <Locations />
+      
       <Testimonials />
       <CTA />
       {/* <Footer /> */}

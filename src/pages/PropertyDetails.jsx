@@ -538,34 +538,43 @@ function PropertyDetails() {
                 </section>
             )}
 
+            {/* Similar Properties */}
             {similarProperties.length > 0 && (
-                <section className="my-16 border-t border-gray-200 pt-12 mx-6">
-                    <div>
+            <section className="my-16 border-t border-gray-200 pt-12 mx-6">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+                <div>
                     <p className="text-sm font-semibold uppercase tracking-wider text-[#D6A756]">
-                        More to explore
+                    More to explore
                     </p>
 
-                    <h2 className="mt-2 text-2xl font-bold text-[#12372A] md:text-3xl">
-                        You may also like
+                    <h2 className="mt-1 text-2xl font-bold text-[#12372A] md:text-3xl">
+                    You may also like
                     </h2>
 
-                    <p className="mt-3 max-w-2xl text-sm leading-6 text-gray-500">
-                        Explore other properties that may match what you're
-                        looking for.
+                    <p className="mt-2 max-w-2xl text-sm text-gray-500">
+                    Explore other properties that match the type, location,
+                    price range, and features of this listing.
                     </p>
-                    </div>
+                </div>
 
-                    <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                    {similarProperties.map((property) => (
-                        <PropertyCard
-                        key={property.id}
-                        property={property}
-                        />
-                    ))}
-                    </div>
-                </section>
+                <Link
+                    to="/properties"
+                    className="text-sm font-semibold text-[#12372A] transition hover:text-[#D6A756]"
+                >
+                    View all properties →
+                </Link>
+                </div>
+
+                <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                {similarProperties.map((similarProperty) => (
+                    <PropertyCard
+                    key={similarProperty.id}
+                    property={similarProperty}
+                    />
+                ))}
+                </div>
+            </section>
             )}
-
             <ContactModal
             isOpen={isContactOpen}
             onClose={() => setIsContactOpen(false)}

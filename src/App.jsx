@@ -3,6 +3,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./components/layout/Layout";
 import { FavoritesProvider } from "./context/FavoritesContext";
 
+import NotFound from "./pages/NotFound";
+import ListProperty from "./pages/ListProperty";
 import Home from "./pages/Home";
 import Properties from "./pages/Properties";
 import PropertyDetails from "./pages/PropertyDetails";
@@ -10,6 +12,7 @@ import Favorites from "./pages/Favourites";
 import Agents from "./pages/Agents";
 import AgentDetails from "./pages/AgentDetails";
 import About from "./pages/About";
+import WhyChooseNestora from "./components/home/WhyNestora";
 
 function App() {
   return (
@@ -25,6 +28,10 @@ function App() {
             <Route path="/agents" element={<Agents />} />
             <Route path="/agents/:id" element={<AgentDetails />} />
             <Route path="/about" element={<About />} />
+            <Route path="" element={<WhyChooseNestora/>} />
+            <Route path="/list-property" element={<ListProperty />} />
+
+            <Route path="*" element={<NotFound />} />
           </Route>
 
         </Routes>
