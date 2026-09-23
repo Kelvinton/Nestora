@@ -154,7 +154,7 @@ function Favorites() {
                     clearFavorites();
                   }
                 }}
-                className="self-start text-sm font-semibold text-red-500 transition hover:text-red-600 sm:self-auto"
+                className="cursor-pointer self-start text-sm font-semibold text-red-500 transition hover:text-red-600 sm:self-auto"
               >
                 Clear all
               </button>

@@ -1,8 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
+import ScrollToTop from "./components/ScrollToTop";
 import Layout from "./components/layout/Layout";
 import { FavoritesProvider } from "./context/FavoritesContext";
-
 import NotFound from "./pages/NotFound";
 import ListProperty from "./pages/ListProperty";
 import Home from "./pages/Home";
@@ -17,9 +16,9 @@ import WhyChooseNestora from "./components/home/WhyNestora";
 function App() {
   return (
     <FavoritesProvider>
-      <BrowserRouter>
+      <BrowserRouter basename="/Nestora">
+        <ScrollToTop />
         <Routes>
-
           <Route element={<Layout />}>
             <Route path="/" element={<Home />} />
             <Route path="/properties" element={<Properties />} />

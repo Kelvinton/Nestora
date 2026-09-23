@@ -62,7 +62,7 @@ function Navbar() {
             className="h-10 w-10 object-contain"
           />
 
-          <span className="text-2xl font-bold tracking-wide text-[#12372A]">
+          <span className="text-xl font-bold tracking-wide text-[#12372A]">
             NESTORA
           </span>
         </Link>
@@ -74,7 +74,7 @@ function Navbar() {
               key={link.label}
               to={link.to}
               className={() =>
-              `text-xl font-medium transition-colors ${
+              `text-base font-medium transition-colors ${
                 link.active
                   ? "text-[#D6A756]"
                   : "text-[#12372A] hover:text-[#D6A756]"

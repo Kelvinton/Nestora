@@ -26,6 +26,15 @@ const agents = [
     email: "michael@nestora.com",
     properties: 31,
   },
+  {
+    id: 4,
+    name: "Seerfan Abigail ",
+    role: "Property Advisor",
+    location: "Gwagwalada, Abuja",
+    phone: "+234 803 448 7890",
+    email: "seerfan@nestora.com",
+    properties: 10,
+  },
 ];
 
 export default agents;

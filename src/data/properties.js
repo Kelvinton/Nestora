@@ -241,6 +241,32 @@ const properties = [
       "Water Supply",
     ],
   },
+  {
+    id: 1,
+    title: "Modern 4 Bedroom Duplex",
+    location: "Maitama, Abuja",
+    price: "₦85,000,000",
+    priceValue: 85000000,
+    pricePeriod: "total",
+    images: [propertyImage, propertyImage2, propertyImage3],
+    beds: 4,
+    baths: 4,
+    area: "320 sqm",
+    status: "For Sale",
+    listingType: "Sale",
+    type: "Duplex",
+    agentId: 4,
+    description:
+      "A beautifully designed 4-bedroom duplex in Lekki, offering spacious living areas, modern finishes, and a comfortable environment for family living.",
+    amenities: [
+      "24/7 Security",
+      "Fitted Kitchen",
+      "Parking Space",
+      "Generator",
+      "Water Supply",
+      "Serviced Estate",
+    ],
+  },
 ];
 
 export default properties;

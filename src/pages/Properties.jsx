@@ -213,229 +213,180 @@ function Properties() {
     <main className="min-h-screen bg-[#F8F7F3]">
 
       {/* Header */}
-      <section className="bg-[#12372A] px-6 py-16 text-white">
+      <section className="bg-[#12372A] px-5 py-12 sm:px-6 lg:px-8 lg:py-16">
         <div className="mx-auto max-w-7xl">
-
-          <p className="text-sm font-semibold uppercase tracking-wider text-[#D6A756]">
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#D6A756]">
             Explore
           </p>
 
-          <h1 className="mt-2 text-3xl font-bold md:text-5xl">
-            Find your next home
+          <h1 className="mt-2 text-3xl font-bold text-white sm:text-4xl">
+            Find your next property
           </h1>
 
-          <p className="mt-4 max-w-2xl text-white/70">
-            Browse our collection of properties and find a place
-            that fits your lifestyle.
+          <p className="mt-3 max-w-2xl text-sm leading-7 text-white/70 sm:text-base">
+            Browse homes, apartments, duplexes, and land that match
+            your needs.
           </p>
-
         </div>
       </section>
 
       {/* Search & Filters */}
-      <section className="mx-auto max-w-7xl px-6 py-8">
-
-        <div className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
+      <div className="mx-auto max-w-7xl px-5 py-8 sm:px-6 lg:px-8">
+        <div className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm sm:p-6">
 
           {/* Search */}
-          <div className="flex items-center gap-3 rounded-xl border border-gray-200 px-4 py-3">
+          <div>
+            <label
+              htmlFor="search"
+              className="mb-2 block text-sm font-semibold text-[#12372A]"
+            >
+              Search
+            </label>
 
-            <Search
-              size={20}
-              className="text-gray-400"
-            />
+            <div className="relative">
+              <Search
+                size={18}
+                className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+              />
 
-            <input
-              type="text"
-              value={searchTerm}
-              onChange={(e) =>
-                setSearchTerm(e.target.value)
-              }
-              placeholder="Search by property or location..."
-              className="w-full bg-transparent text-sm outline-none"
-            />
-
+              <input
+                id="search"
+                type="text"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                placeholder="Search by location, property type..."
+                className="w-full rounded-xl border border-gray-200 py-3 pl-11 pr-4 text-sm text-[#1F2933] outline-none transition focus:border-[#12372A]"
+              />
+            </div>
           </div>
 
           {/* Filters */}
-          <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
 
-            {/* Property Type */}
-            <div className="rounded-xl border border-gray-200 px-4 py-3">
-
-              <label className="block text-xs font-medium text-gray-500">
+            {/* Property type */}
+            <div>
+              <label
+                htmlFor="propertyType"
+                className="mb-2 block text-sm font-semibold text-[#12372A]"
+              >
                 Property Type
               </label>
 
               <select
+                id="propertyType"
                 value={propertyType}
-                onChange={(e) => {
-                  setListingType(e.target.value);
-                  setPriceRange("All");
-                }}
-                className="mt-1 w-full bg-transparent text-sm font-semibold text-[#12372A] outline-none"
+                onChange={(e) => setPropertyType(e.target.value)}
+                className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm outline-none transition focus:border-[#12372A]"
               >
-                <option value="All">
-                  All Types
-                </option>
-
-                <option value="Apartment">
-                  Apartment
-                </option>
-
-                <option value="House">
-                  House
-                </option>
-
-                <option value="Duplex">
-                  Duplex
-                </option>
-
-                <option value="Land">
-                  Land
-                </option>
+                <option value="All">All Properties</option>
+                <option value="Apartment">Apartment</option>
+                <option value="House">House</option>
+                <option value="Duplex">Duplex</option>
+                <option value="Land">Land</option>
               </select>
-
             </div>
 
             {/* Price */}
-            <div className="rounded-xl border border-gray-200 px-4 py-3">
-
-              <label className="block text-xs font-medium text-gray-500">
+            <div>
+              <label
+                htmlFor="priceRange"
+                className="mb-2 block text-sm font-semibold text-[#12372A]"
+              >
                 Price Range
               </label>
 
               <select
+                id="priceRange"
                 value={priceRange}
-                onChange={(e) =>
-                  setPriceRange(e.target.value)
-                }
-                className="mt-1 w-full bg-transparent text-sm font-semibold text-[#12372A] outline-none"
+                onChange={(e) => setPriceRange(e.target.value)}
+                className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm outline-none transition focus:border-[#12372A]"
               >
-                <option value="All">
-                  All Prices
-                </option>
+                <option value="All">Any Price</option>
 
                 {listingType === "Rent" ? (
                   <>
-                    <option value="Under 2m">
-                      Under ₦2m
-                    </option>
-
-                    <option value="2m - 5m">
-                      ₦2m - ₦5m
-                    </option>
-
-                    <option value="Above 5m">
-                      Above ₦5m
-                    </option>
+                    <option value="Under 2m">Under ₦2m</option>
+                    <option value="2m - 5m">₦2m - ₦5m</option>
+                    <option value="Above 5m">Above ₦5m</option>
                   </>
                 ) : (
                   <>
-                    <option value="Under 70m">
-                      Under ₦70m
-                    </option>
-
-                    <option value="70m - 100m">
-                      ₦70m - ₦100m
-                    </option>
-
-                    <option value="Above 100m">
-                      Above ₦100m
-                    </option>
+                    <option value="Under 70m">Under ₦70m</option>
+                    <option value="70m - 100m">₦70m - ₦100m</option>
+                    <option value="Above 100m">Above ₦100m</option>
                   </>
                 )}
               </select>
-
             </div>
 
             {/* Bedrooms */}
-            <div className="rounded-xl border border-gray-200 px-4 py-3">
-
-              <label className="block text-xs font-medium text-gray-500">
+            <div>
+              <label
+                htmlFor="bedrooms"
+                className="mb-2 block text-sm font-semibold text-[#12372A]"
+              >
                 Bedrooms
               </label>
 
               <select
+                id="bedrooms"
                 value={bedrooms}
-                onChange={(e) =>
-                  setBedrooms(e.target.value)
-                }
-                className="mt-1 w-full bg-transparent text-sm font-semibold text-[#12372A] outline-none"
+                onChange={(e) => setBedrooms(e.target.value)}
+                className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm outline-none transition focus:border-[#12372A]"
               >
-                <option value="Any">
-                  Any Bedrooms
-                </option>
-
-                <option value="1">
-                  1+ Bedroom
-                </option>
-
-                <option value="2">
-                  2+ Bedrooms
-                </option>
-
-                <option value="3">
-                  3+ Bedrooms
-                </option>
-
-                <option value="4">
-                  4+ Bedrooms
-                </option>
-
-                <option value="5">
-                  5+ Bedrooms
-                </option>
+                <option value="Any">Any Bedrooms</option>
+                <option value="1">1+</option>
+                <option value="2">2+</option>
+                <option value="3">3+</option>
+                <option value="4">4+</option>
+                <option value="5">5+</option>
               </select>
-
             </div>
 
             {/* Listing */}
-            <div className="rounded-xl border border-gray-200 px-4 py-3">
-
-              <label className="block text-xs font-medium text-gray-500">
+            <div>
+              <label
+                htmlFor="listingType"
+                className="mb-2 block text-sm font-semibold text-[#12372A]"
+              >
                 Listing
               </label>
 
               <select
+                id="listingType"
                 value={listingType}
-                onChange={(e) =>
-                  setListingType(e.target.value)
-                }
-                className="mt-1 w-full bg-transparent text-sm font-semibold text-[#12372A] outline-none"
+                onChange={(e) => {
+                  setListingType(e.target.value);
+                  setPriceRange("All");
+                }}
+                className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm outline-none transition focus:border-[#12372A]"
               >
-                <option value="All">
-                  Buy & Rent
-                </option>
-
-                <option value="Sale">
-                  For Sale
-                </option>
-
-                <option value="Rent">
-                  For Rent
-                </option>
+                <option value="All">Buy or Rent</option>
+                <option value="Sale">For Sale</option>
+                <option value="Rent">For Rent</option>
               </select>
-
             </div>
-
           </div>
 
           {/* Clear filters */}
-          <div className="mt-4 flex justify-end">
-
+          <div className="mt-5 flex justify-end">
             <button
-              onClick={clearFilters}
-              className="text-sm font-semibold text-[#12372A] transition-colors hover:text-[#D6A756]"
+              type="button"
+              onClick={() => {
+                setSearchTerm("");
+                setPropertyType("All");
+                setPriceRange("All");
+                setBedrooms("Any");
+                setListingType("All");
+                setCurrentPage(1);
+              }}
+              className="cursor-pointer text-sm font-semibold text-gray-500 transition hover:text-[#12372A]"
             >
               Clear filters
             </button>
-
           </div>
-
         </div>
-
-      </section>
+      </div>
 
       {/* Property Results */}
       <section className="mx-auto max-w-7xl px-6 pb-16">

@@ -1,91 +1,87 @@
-import { Star } from "lucide-react";
+import { Quote, Star } from "lucide-react";
 
 const testimonials = [
   {
-    name: "Sarah Okafor",
-    location: "Lagos",
-    initials: "SO",
-    review:
-      "Nestora made finding a home much easier. I loved how simple it was to explore different properties and compare my options.",
+    name: "Sarah Johnson",
+    role: "Home Buyer",
+    text: "Nestora made it much easier to narrow down the kind of property I was looking for. The experience felt simple and straightforward.",
   },
   {
-    name: "David James",
-    location: "Abuja",
-    initials: "DJ",
-    review:
-      "The property search was straightforward, and the filters helped me narrow down exactly what I was looking for.",
+    name: "David Williams",
+    role: "Property Investor",
+    text: "I liked how easy it was to explore different properties and compare the details before deciding which ones to follow up on.",
   },
   {
-    name: "Grace Williams",
-    location: "Port Harcourt",
-    initials: "GW",
-    review:
-      "I found several properties that matched my budget and preferences. The whole experience felt simple and organized.",
+    name: "Amaka Okafor",
+    role: "Tenant",
+    text: "The property search experience was clean and easy to understand. I could quickly find listings that matched what I wanted.",
   },
 ];
 
 function Testimonials() {
   return (
-    <section className="bg-white px-4 py-20 md:px-8 lg:px-12">
+    <section className="bg-white px-5 py-16 sm:px-6 lg:px-8 lg:py-20">
       <div className="mx-auto max-w-7xl">
 
         {/* Heading */}
-        <div className="mx-auto mb-12 max-w-2xl text-center">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-[#12372A]/70">
+        <div className="mx-auto max-w-2xl text-center">
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#D6A756]">
             Testimonials
           </p>
 
-          <h2 className="text-3xl font-semibold leading-tight text-[#1F2933] md:text-5xl">
-            What people are saying.
+          <h2 className="mt-2 text-3xl font-bold tracking-tight text-[#12372A] sm:text-4xl">
+            What people say about Nestora
           </h2>
 
-          <p className="mt-4 text-[#1F2933]/65">
-            See what our community has to say about their property discovery
-            experience.
+          <p className="mt-4 text-sm leading-7 text-gray-500 sm:text-base">
+            A great property experience should feel simple,
+            transparent, and centred around the person searching.
           </p>
         </div>
 
-        {/* Testimonial Cards */}
-        <div className="grid gap-6 md:grid-cols-3">
+        {/* Testimonials */}
+        <div className="mt-10 grid gap-5 md:grid-cols-3">
           {testimonials.map((testimonial) => (
-            <div
+            <article
               key={testimonial.name}
-              className="rounded-2xl border border-gray-100 bg-[#F8F7F3] p-6 transition duration-300 hover:-translate-y-1 hover:shadow-lg"
+              className="flex h-full flex-col rounded-2xl border border-gray-200 bg-[#F8F7F3] p-6 sm:p-8"
             >
-              {/* Stars */}
-              <div className="mb-6 flex gap-1">
-                {[...Array(5)].map((_, index) => (
-                  <Star
-                    key={index}
-                    size={17}
-                    fill="currentColor"
-                    className="text-[#12372A]"
-                  />
-                ))}
+              {/* Quote icon */}
+              <div className="flex items-center justify-between">
+                <Quote
+                  size={30}
+                  className="text-[#D6A756]"
+                />
+
+                {/* Stars */}
+                <div className="flex gap-1">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <Star
+                      key={star}
+                      size={15}
+                      fill="currentColor"
+                      className="text-[#D6A756]"
+                    />
+                  ))}
+                </div>
               </div>
 
-              {/* Review */}
-              <p className="min-h-30 leading-7 text-[#1F2933]/75">
-                "{testimonial.review}"
+              {/* Testimonial */}
+              <p className="mt-6 flex-1 text-sm leading-7 text-gray-600">
+                "{testimonial.text}"
               </p>
 
-              {/* User */}
-              <div className="mt-6 flex items-center gap-3 border-t border-gray-200 pt-5">
-                <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#12372A] text-sm font-semibold text-white">
-                  {testimonial.initials}
-                </div>
+              {/* Person */}
+              <div className="mt-6 border-t border-gray-200 pt-5">
+                <p className="font-semibold text-[#12372A]">
+                  {testimonial.name}
+                </p>
 
-                <div>
-                  <h3 className="font-semibold text-[#1F2933]">
-                    {testimonial.name}
-                  </h3>
-
-                  <p className="text-sm text-[#1F2933]/55">
-                    {testimonial.location}
-                  </p>
-                </div>
+                <p className="mt-1 text-xs text-gray-500">
+                  {testimonial.role}
+                </p>
               </div>
-            </div>
+            </article>
           ))}
         </div>
 

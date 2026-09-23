@@ -4,11 +4,14 @@ const FavoritesContext = createContext();
 
 export function FavoritesProvider({ children }) {
   const [favorites, setFavorites] = useState(() => {
-  const savedFavorites = localStorage.getItem("nestoraFavorites");
+    try {
+      const savedFavorites = localStorage.getItem("nestoraFavorites");
 
-  return savedFavorites
-    ? JSON.parse(savedFavorites)
-    : [];
+      return savedFavorites ? JSON.parse(savedFavorites) : [];
+    } catch (error) {
+      console.error("Failed to load favorites:", error);
+      return [];
+    }
   });
 
   const toggleFavorite = (property) => {
@@ -38,7 +41,9 @@ export function FavoritesProvider({ children }) {
   };
 
   const isFavorite = (propertyId) => {
-    return favorites.some((item) => item.id === propertyId);
+    return favorites.some(
+      (item) => item.id === propertyId
+    );
   };
 
   return (

@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import heroProperty from "../../assets/images/hero-property.jpg";
@@ -48,24 +49,26 @@ function Hero() {
       <div className="absolute inset-0 bg-black/45" />
 
       {/* Content */}
-      <div className="relative mx-auto flex min-h-155 max-w-7xl items-center px-5 py-7 sm:px-6 lg:px-8">
-        <div className="w-full max-w-3xl ">
+      <div className="relative mx-auto flex min-h-150 max-w-7xl items-center justify-center px-5 py-7 text-center sm:px-6 lg:px-8">
+        <div className="w-full max-w-4xl">
+
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#D6A756]">
             Your next home starts here
           </p>
 
-          <h1 className="mt-4 max-w-2xl text-4xl font-bold leading-tight text-white sm:text-5xl lg:text-6xl">
+          <h1 className="mt-4 text-4xl font-bold leading-tight text-white sm:text-5xl lg:text-6xl">
             Find a place you'll love.
           </h1>
 
-          <p className="mt-5 max-w-2xl text-base leading-7 text-white/80 sm:text-lg">
+          <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-white/80 sm:text-lg">
             Discover homes and properties that fit your lifestyle,
             budget, and future.
           </p>
 
           {/* Search box */}
-          <div className="mt-8 rounded-2xl bg-white p-4 shadow-2xl sm:p-5">
+          <div className="mx-auto mt-8 rounded-2xl bg-white p-4 text-left shadow-2xl sm:p-5">
             <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-4">
+
               {/* Location */}
               <div>
                 <label
@@ -159,11 +162,12 @@ function Hero() {
             <button
               type="button"
               onClick={handleSearch}
-              className="mt-3 w-full rounded-xl bg-[#12372A] px-5 py-3.5 text-sm font-semibold text-white transition hover:bg-[#315C48]"
+              className="mt-8 w-full rounded-xl bg-[#12372A] px-5 py-3.5 text-sm font-semibold text-white transition hover:bg-[#315C48]"
             >
               Search Properties
             </button>
           </div>
+
         </div>
       </div>
     </section>
@@ -171,3 +175,4 @@ function Hero() {
 }
 
 export default Hero;
+
